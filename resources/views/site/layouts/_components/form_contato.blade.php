@@ -5,6 +5,8 @@
                     @csrf
                     <input type="text" placeholder="Nome" class={{ $classe }} name='nome' id='nome'>
                     <br>
+                    <input type="text" placeholder="Sobrenome" class={{ $classe }} name='sobrenome' id='sobrenome'>
+                    <br>
                     <input type="text" placeholder="Telefone" class={{ $classe }} name='telefone' id='telefone'>
                     <br>
                     <input type="text" placeholder="E-mail" class={{ $classe }} name='email' id='email'>
