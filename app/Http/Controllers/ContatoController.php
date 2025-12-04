@@ -9,7 +9,13 @@ class ContatoController extends Controller
 {
     public function contato()
     {
+        $motivo_contato = [
+            '1' => "Dúvida",
+            '2' => "Elogio",
+            '3' => "Reclamação"
+        ];
         return view("site.contato");
+        
     }
     public function salvar(Request $request)
     {
@@ -22,7 +28,7 @@ class ContatoController extends Controller
         $request->validate([
             'nome' => ['required', Rule::notIn(['caue', 'Cauê'])],
             'telefone' => ['required', 'string'],
-            'email' => ['required'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'motivo_contato' => ['required'],
             'mensagem' => ['required']
         ]);
