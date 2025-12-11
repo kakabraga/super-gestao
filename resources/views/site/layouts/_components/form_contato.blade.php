@@ -1,4 +1,4 @@
-<div class="contato-principal">
+<div class="w-full px-4">
 
     <form action="{{ route('site.contato') }}" method="post">
         @csrf
@@ -12,13 +12,15 @@
         <br>
         <input type="text" value="{{ old('email') }}" placeholder="E-mail" class={{ $classe }} name='email' id='email'>
         <br>
-        <select name='motivo_contato' class={{ $classe }}>
+        <select name="motivo_contato" class="{{ $classe }}">
             <option value="">Qual o motivo do contato?</option>
-            <option value="1" {{ old('motivo_contato') == 1 ? 'selected' : ''}}>Dúvida</option>
-            <option value="2" {{ old('motivo_contato') == 2 ? 'selected' : ''}}>Elogio</option>
-            <option value="3" {{ old('motivo_contato') == 3 ? 'selected' : ''}}>Reclamação</option>
+
+            @foreach ($motivo_contato as $motivo)
+                <option value="{{ $motivo->id }}" {{ old('motivo_contato') == $motivo->motivo_contato ? 'selected' : '' }}>
+                    {{ $motivo->motivo_contato }}
+                </option>
+            @endforeach
         </select>
-        <br>
         <textarea name='mensagem' class={{ $classe }}>
            @if(old('mensagem') != '')
             {{ old('mensagem') }}
@@ -32,8 +34,4 @@
 
 
 <div style="position: absolut; top:0px; left:0px; width: 50%; background-color: red;">
-
-    <pre>
-                    {{ print_r($errors) }}
-                </pre>
 </div>

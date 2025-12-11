@@ -3,15 +3,14 @@
 @section('titulo', 'Contato')
 @section('conteudo')
     @include('site.layouts._partials.topo');
-    <div class="conteudo-pagina">
+    <div class="w-full px-4">
         <div class="titulo-pagina">
             <h1>Entre em contato conosco</h1>
         </div>
 
-        @component('site.layouts._components.form_contato', ['classe' => 'borda-preta'])
+        @component('site.layouts._components.form_contato', ['classe' => 'borda-preta', 'motivo_contato' => $motivo_contato])
         @endcomponent
     </div>
-
     <div class="rodape">
         <div class="redes-sociais">
             <h2>Redes sociais</h2>

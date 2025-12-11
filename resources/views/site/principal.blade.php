@@ -25,7 +25,7 @@
         </div>
 
         <div class="direita">
-            @component('site.layouts._components.form_contato', ['classe' => 'borda-branca'])
+            @component('site.layouts._components.form_contato', ['classe' => 'borda-branca', 'motivo_contato' => $motivo_contato])
             @endcomponent
         </div>
     </div>
