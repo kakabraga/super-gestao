@@ -3,8 +3,7 @@
 @section('titulo', $titulo)
 
 @section('conteudo')
-@include('site.layouts._partials.topo');
-    <div class="conteudo-pagina">
+    <div class="flex justify-end">
         <div class="titulo-pagina">
             <h1>Olá, eu sou o Super Gestão</h1>
         </div>
