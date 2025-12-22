@@ -17,28 +17,31 @@ class ContatoController extends Controller
     public function salvar(Request $request)
     {
         $request->validate([
-            'nome' => ['required', Rule::notIn(['caue', 'Cauê'])],
+            'nome' => ['required'],
             'sobrenome' => ['required', 'string'],
             'telefone' => ['required', 'string'],
-            'email' => ['required'],
+            'email' => ['required', 'unique:site_contatos'],
             'motivo_contatos_id' => ['required'],
             'mensagem' => ['required']
         ]);
         $contato = new SiteContato($request->all());
-        if($contato->save()){
-            return redirect()->route('site.confirma_save')->with('dados', $contato);
+        if ($contato->save()) {
+            return redirect()
+                ->route('site.confirma_save')
+                ->with('dados', $contato);
         }
-        return redirect()->route('site.index');
     }
 
-    public function confirmaSave () {
-        return view('site.confirma_save');
+    public function confirmaSave()
+    {
+        $dados = session('dados');
+
+        // se acessar direto sem salvar
+        if (!$dados) {
+            return redirect()->route('site.index');
+        }
+
+        return view('site.confirma_save', compact('dados'));
     }
 
-    // public function getMotivoContato()
-    // {
-    //     $motivo_contato = new MotivoContato();
-    //     $motivo_contato::all();
-    //     return view("site.contato", ['motivo_contato'])
-    // }
 }
