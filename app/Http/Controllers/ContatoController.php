@@ -17,7 +17,7 @@ class ContatoController extends Controller
     public function salvar(Request $request)
     {
         $request->validate([
-            'nome' => ['required'],
+            'nome' => ['required', 'max:3', 'string'],
             'sobrenome' => ['required', 'string'],
             'telefone' => ['required', 'string'],
             'email' => ['required', 'unique:site_contatos'],
@@ -27,8 +27,7 @@ class ContatoController extends Controller
         $contato = new SiteContato($request->all());
         if ($contato->save()) {
             return redirect()
-                ->route('site.confirma_save')
-                ->with('dados', $contato);
+                ->route('site.index');
         }
     }
 
