@@ -6,6 +6,8 @@ use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\SobreNosController;
 use App\Http\Controllers\TesteController;
+use App\Http\Middleware\LogAcessoMiddleware;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,10 +19,13 @@ use App\Http\Controllers\TesteController;
 |
 */
 
-Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
+Route::get('/', [PrincipalController::class, 'principal'])
+->name('site.index')
+->middleware(LogAcessoMiddleware::class);
 Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
 Route::get('/contato', [ContatoController::class, 'contato'])->name('site.contato');
-Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
+Route::post('/contato', [ContatoController::class, 'salvar'])
+->name('site.contato');
 Route::get('/confimar', [ContatoController::class, 'confirmaSave'])->name('site.confirma_save');
 
 Route::get('/login', function () {
