@@ -9,6 +9,10 @@ class LogAcesso extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['log', 'fallback'];
+    protected $fillable = ['log', 'fallback', 'method'];
+    protected $casts = [
+    'fallback' => 'boolean',
+];
+
 }
  

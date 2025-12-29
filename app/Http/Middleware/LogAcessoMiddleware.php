@@ -17,18 +17,30 @@ class LogAcessoMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $ip = $request->ip();
-        $route = $request->getRequestUri();
-        $isFallback = $response->getStatusCode() === 404;
-        $message = [
-            'log' => $isFallback
-                ? "O IP: $ip caiu em um fallback: $route"
-                : "O IP: $ip requisitou a rota: $route",
-            'fallback' => $isFallback
-                ? 1
-                : 0
-        ];
-        LogAcesso::create($message);
+        $log = $this->buildLogContext($request, $response);
+        LogAcesso::create($this->geraMessageLog($log));
         return $response;
+    }
+
+    public function geraMessageLog(array $log): array
+    {
+        return [
+            'log' => $log['isFallback']
+                ? "O IP: {$log['ip']} caiu em um fallback: {$log['route']}"
+                : "O IP: {$log['ip']} requisitou a rota: {$log['route']}",
+            'fallback' => $log['isFallback'],
+            'method' => $log['method']
+        ];
+    }
+
+    private function buildLogContext(Request $request, Response $response): array
+    {
+        return [
+            'ip' => $request->ip(),
+            'route' => $request->getRequestUri(),
+            'method' => $request->method(),
+            'status' => $response->getStatusCode(),
+            'isFallback' => $response->getStatusCode() === 404,
+        ];
     }
 }
