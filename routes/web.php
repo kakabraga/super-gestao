@@ -19,13 +19,10 @@ use App\Http\Middleware\LogAcessoMiddleware;
 |
 */
 
-Route::get('/', [PrincipalController::class, 'principal'])
-->name('site.index')
-->middleware(LogAcessoMiddleware::class);
+Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
 Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
 Route::get('/contato', [ContatoController::class, 'contato'])
-->name('site.contato')
-->middleware(LogAcessoMiddleware::class);
+->name('site.contato');
 Route::post('/contato', [ContatoController::class, 'salvar'])
 ->name('site.contato');
 Route::get('/confimar', [ContatoController::class, 'confirmaSave'])->name('site.confirma_save');
@@ -47,7 +44,7 @@ Route::prefix('/app')->group(function () {
 Route::get('/teste/{idade}/{salario}', [TesteController::class, 'teste'])->name('site.teste');
 
 Route::fallback(function(){
-    echo "Rota não encontrada. Clique <a href='".route('site.index')."'>aqui</a> para ir para a página inicial";
+    return response("Rota não encontrada. Clique <a href='".route('site.index')."'>aqui</a> para ir para a página inicial",  404);
 });
 
 

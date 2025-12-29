@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\LogAcesso;
+
 class LogAcessoMiddleware
 {
     /**
@@ -15,9 +16,19 @@ class LogAcessoMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $response = $next($request);
         $ip = $request->ip();
         $route = $request->getRequestUri();
-        LogAcesso::create(['log' => "O IP: $ip Requisitou a rota: $route"]);
-        return $next($request);
+        $isFallback = $response->getStatusCode() === 404;
+        $message = [
+            'log' => $isFallback
+                ? "O IP: $ip caiu em um fallback: $route"
+                : "O IP: $ip requisitou a rota: $route",
+            'fallback' => $isFallback
+                ? 1
+                : 0
+        ];
+        LogAcesso::create($message);
+        return $response;
     }
 }

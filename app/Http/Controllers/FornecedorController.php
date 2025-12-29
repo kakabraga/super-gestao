@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
 {
+
     public function index() {
         $fornecedores = [
             1 => ['nome' => 'fornecedor 2', 'status' => 'ativo'],

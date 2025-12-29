@@ -6,9 +6,10 @@ use App\Models\MotivoContato;
 use Illuminate\Http\Request;
 use App\Models\SiteContato;
 use Illuminate\Validation\Rule;
-
+use App\Models\LogAcesso; 
 class ContatoController extends Controller
 {
+
     public function contato()
     {
         $motivo_contato = MotivoContato::all();
