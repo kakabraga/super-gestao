@@ -32,19 +32,19 @@ Route::post('/contato', [ContatoController::class, 'salvar'])
     ->name('site.contato');
 Route::get('/confimar', [ContatoController::class, 'confirmaSave'])->name('site.confirma_save');
 
-Route::get('/login', function () {
-    return 'login';
-});
 
-Route::middleware('autenticacao')->prefix('/app')->group(function () {
+Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
     Route::get('/clientes', function () {
         return 'clientes';
     })->name('app.clientes');
     Route::get('/fornecedores', [FornecedorController::class, 'index'])
-        ->name('app.fornecedores');
+    ->name('app.fornecedores');
     Route::get('/produtos', function () {
         return 'produtos';
     })->name('app.produtos');
+    Route::get('/login', function () {
+        return 'login';
+    });
 });
 
 Route::get('/teste/{idade}/{salario}', [TesteController::class, 'teste'])->name('site.teste');
