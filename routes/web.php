@@ -19,23 +19,29 @@ use App\Http\Middleware\LogAcessoMiddleware;
 |
 */
 
-Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
-Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
+Route::get('/', [PrincipalController::class, 'principal'])
+    ->name('site.index');
+
+Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])
+    ->name('site.sobrenos');
+
 Route::get('/contato', [ContatoController::class, 'contato'])
-->name('site.contato');
+    ->name('site.contato');
+
 Route::post('/contato', [ContatoController::class, 'salvar'])
-->name('site.contato');
+    ->name('site.contato');
 Route::get('/confimar', [ContatoController::class, 'confirmaSave'])->name('site.confirma_save');
 
 Route::get('/login', function () {
     return 'login';
 });
 
-Route::prefix('/app')->group(function () {
+Route::middleware('autenticacao')->prefix('/app')->group(function () {
     Route::get('/clientes', function () {
         return 'clientes';
     })->name('app.clientes');
-    Route::get('/fornecedores',[FornecedorController::class, 'index'])->name('app.fornecedores');
+    Route::get('/fornecedores', [FornecedorController::class, 'index'])
+        ->name('app.fornecedores');
     Route::get('/produtos', function () {
         return 'produtos';
     })->name('app.produtos');
@@ -43,8 +49,8 @@ Route::prefix('/app')->group(function () {
 
 Route::get('/teste/{idade}/{salario}', [TesteController::class, 'teste'])->name('site.teste');
 
-Route::fallback(function(){
-    return response("Rota não encontrada. Clique <a href='".route('site.index')."'>aqui</a> para ir para a página inicial",  404);
+Route::fallback(function () {
+    return response("Rota não encontrada. Clique <a href='" . route('site.index') . "'>aqui</a> para ir para a página inicial",  404);
 });
 
 
