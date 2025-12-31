@@ -32,6 +32,7 @@ Route::post('/contato', [ContatoController::class, 'salvar'])
 Route::get('/confimar', [ContatoController::class, 'confirmaSave'])->name('site.confirma_save');
 
 Route::get('/login', [LoginController::class, 'index'])->name('site.login');
+Route::post('/login', [LoginController::class, 'salvar'])->name('site.login');
 
 Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
     Route::get('/clientes', function () {

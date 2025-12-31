@@ -1,7 +1,5 @@
 @extends('site.layouts.basico')
-
 @section('titulo', $titulo)
-
 @section('conteudo')
     <div class="flex justify-end">
         <div class="titulo-pagina">
