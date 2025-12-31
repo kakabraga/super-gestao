@@ -1,7 +1,6 @@
 @extends('site.layouts.basico')
 @section('titulo', 'Index')
 @section('conteudo')
-    <div class="conteudo-destaque ">
         <div class="border-2 rounded flex ">
             {{-- Imagem (metade esquerda) --}}
             <div class="">
@@ -33,7 +32,6 @@
             </div>
 
         </div>
-
     </div>
-    </div>
+</div>
 @endsection

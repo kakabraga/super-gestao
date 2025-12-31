@@ -12,6 +12,4 @@
             @endcomponent
         </div>
     </div>
-    @component('site.layouts._partials.rodape')
-    @endcomponent
 @endsection

@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <title>Super Gestão - @yield('titulo')</title>
     <meta charset="utf-8">
-    <!-- <link rel="stylesheet" href="{{ asset('css/estilo_basico.css') }}"> -->
+    <title>Super Gestão - @yield('titulo')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+
+<body class="min-h-screen flex flex-col">
+
+    {{-- Topo --}}
     @include('site.layouts._partials.topo')
-    <div class="w-full px-4">
+
+    {{-- Conteúdo --}}
+    <main class="flex-1">
         @yield('conteudo')
-    </div>
+    </main>
+
+    {{-- Rodapé --}}
+    @include('site.layouts._partials.rodape')
 
 </body>
-
 </html>
