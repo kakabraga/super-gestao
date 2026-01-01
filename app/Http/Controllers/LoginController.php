@@ -18,11 +18,11 @@ class LoginController extends Controller
             [
                 'name'  => ['required', 'max:255'],
                 'password' => ['required'],
-                'email' => ['required', 'email']
+                'email' => ['required', 'email', 'unique:users']
             ],
-            [
+            
                 $this->feedback()
-            ]
+            
         );
         User::create($validated);
         return redirect()->route('site.login');

@@ -18,7 +18,7 @@
                            focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
                            outline-none transition" name="name" id="name" />
                  @error('name')
-                                <span class="text-sm font-medium shadow-xl py-2 px-3 rounded mt-2 mb-4 focus:outline-blue-400">{{
+                                <span class="text-sm font-medium mt-2 mb-4 focus:outline-blue-400">{{
                     $message  }}</span>
                                 <br>
                 @enderror
