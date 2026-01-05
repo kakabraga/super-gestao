@@ -31,8 +31,10 @@ Route::post('/contato', [ContatoController::class, 'salvar'])
     ->name('site.contato');
 Route::get('/confimar', [ContatoController::class, 'confirmaSave'])->name('site.confirma_save');
 
-Route::get('/login', [LoginController::class, 'index'])->name('site.login');
-Route::post('/login', [LoginController::class, 'salvar'])->name('site.login');
+Route::get('/login', [LoginController::class, 'loginView'])->name('site.login.view');
+Route::get('/register', [LoginController::class, 'registerView'])->name('site.register.view');
+Route::post('/login', [LoginController::class, 'login'])->name('site.login.submit');
+Route::post('/register', [LoginController::class, 'register'])->name('site.register.submit');
 
 Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
     Route::get('/clientes', function () {

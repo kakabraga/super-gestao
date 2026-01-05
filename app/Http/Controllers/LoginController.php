@@ -7,21 +7,23 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    public function index()
+    public function loginView(Request $request)
     {
-        return view('site.login');
+        return view('site.login', [
+            'auth' => $request->query('auth', 'login')
+        ]);
     }
 
     public function salvar(Request $request)
     {
         if (!$this->senhaValida($request->password, $request->password_confirmed)) {
             return redirect()
-                ->route('site.index')
+                ->route('site.login')
                 ->withErrors(['password' => 'Senha não informada']);
         }
 
         $validated = $this->validaDados($request);
-        $this->criarUsuairo($validated);
+        $this->criarUsuario($validated);
         return redirect()->route('site.login');
     }
 
@@ -47,7 +49,7 @@ class LoginController extends Controller
         return $password === $confirmed;
     }
 
-    public function criarUsuairo(array $dados): void
+    public function criarUsuario(array $dados): void
     {
         User::create([
             'name' => $dados['name'],
@@ -59,7 +61,7 @@ class LoginController extends Controller
     {
         return $request->validate(
             [
-                'name'  => ['required', 'max:255'],
+                'name' => ['required', 'max:255'],
                 'password' => ['required'],
                 'email' => ['required', 'email', 'unique:users']
             ],
@@ -67,5 +69,11 @@ class LoginController extends Controller
             $this->feedback()
 
         );
+    }
+    public function registerView(Request $request)
+    {
+        return view('site.login', [
+            'auth' => $request->query('auth', 'register')
+        ]);
     }
 }

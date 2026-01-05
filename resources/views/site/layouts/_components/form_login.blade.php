@@ -1,89 +1,150 @@
-<div class="border border-sky-600 rounded-lg mt-4 p-6 bg-white shadow-lg">
-
-    <h2 class="text-lg font-semibold text-sky-900 mb-4">
-        Formulário de Registro
+<div class="border border-sky-600 rounded-xl mt-6 p-8 bg-white shadow-md w-full max-w-md">
+@php
+    $auth = request()->query('auth', 'login');
+@endphp
+@if($auth == 'login')
+    <h2 class="text-xl font-semibold text-sky-900 mb-6 text-center">
+        Faça login na sua conta
     </h2>
-
-    <form action="{{ route("site.login") }}" class="space-y-5" method="post">
+@endif
+@if($auth == 'register')
+    <h2 class="text-xl font-semibold text-sky-900 mb-6 text-center">
+        Faça cadastro!
+    </h2>
+@endif
+    <form action="{{ $auth === 'login' ? route('site.login.submit') : route('site.register.submit') }}" method="post" class="space-y-5">
         @csrf
-        <!-- Campos -->
-        <div class="grid grid-cols-1 md:grid-cols-1 gap-3">
 
-            <div>
-                <label class="block text-sm font-medium text-sky-800 mb-1">
-                    Usuário
-                </label>
-                <input type="text" placeholder="Digite seu usuário" value="{{ old('name') }}" class="w-full rounded-md border border-sky-600 px-4 py-2
-                           text-sm text-sky-900
-                           focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
-                           outline-none transition" name="name" id="name" />
-                 @error('name')
-                                <span class="text-sm font-medium mt-2 mb-4 focus:outline-blue-400">{{
-                    $message  }}</span>
-                                <br>
-                @enderror
-            </div>
-            
-            <div>
-                <label class="block text-sm font-medium text-sky-800 mb-1">
-                    Email
-                </label>
-                <input type="email" placeholder="Digite sua password" value="{{ old('email')}}" class="w-full rounded-md border border-sky-600 px-3 py-2
-                           text-sm text-sky-900
-                           focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
-                           outline-none transition" name="email" id="email" />
-                @error('email')
-                                <span class="text-smblock text-sm font-medium text-red-800 mb-1font-medium  py-2 px-3 rounded mt-2 mb-4 focus:outline-blue-400">{{
-                    $message  }}</span>
-                                <br>
-                @enderror
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-sky-800 mb-1">
-                    Senha
-                </label>
-                <input type="password" placeholder="Digite sua password" value="{{ old('password')}}" class="w-full rounded-md border border-sky-600 px-3 py-2
-                           text-sm text-sky-900
-                           focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
-                           outline-none transition" name="password" id="password" />
-                @error('password')
-                                <span class="text-smblock text-sm font-medium text-red-800 mb-1font-medium  py-2 px-3 rounded mt-2 mb-4 focus:outline-blue-400">{{
-                    $message  }}</span>
-                                <br>
-                @enderror
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-sky-800 mb-1">
-                    Confirmação de Senha
-                </label>
-                <input type="password_confirmed" placeholder="Confirme sua senha" value="{{ old('password_confirmed')}}" class="w-full rounded-md border border-sky-600 px-3 py-2
-                           text-sm text-sky-900
-                           focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
-                           outline-none transition" name="password_confirmed" id="password_confirmed" />
-                @error('password_confirmed')
-                                <span class="text-smblock text-sm font-medium text-red-800 mb-1font-medium  py-2 px-3 rounded mt-2 mb-4 focus:outline-blue-400">{{
-                    $message  }}</span>
-                                <br>
-                @enderror
-            </div>
+         @if($auth == 'register')<div>
+            <label for="nome" class="block text-sm font-medium text-sky-800 mb-2">
+                Nome
+            </label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ old('name') }}"
+                placeholder="Digite seu nome"
+                class="w-full rounded-md border border-sky-600 px-3 py-2
+                       text-sm text-sky-900
+                       focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
+                       outline-none transition"
+                required
+            />
 
+            @error('name')
+                <span class="block text-sm text-red-700 mt-2">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+        @endif
+        <!-- Email -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-sky-800 mb-2">
+                Email
+            </label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ old('email') }}"
+                placeholder="Digite seu email"
+                class="w-full rounded-md border border-sky-600 px-3 py-2
+                       text-sm text-sky-900
+                       focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
+                       outline-none transition"
+                required
+            />
+
+            @error('email')
+                <span class="block text-sm text-red-700 mt-2">
+                    {{ $message }}
+                </span>
+            @enderror
         </div>
 
+        <!-- Senha -->
+        <div>
+            <label for="password" class="block text-sm font-medium text-sky-800 mb-2">
+                Senha
+            </label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Digite sua senha"
+                class="w-full rounded-md border border-sky-600 px-3 py-2
+                       text-sm text-sky-900
+                       focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
+                       outline-none transition"
+                required
+            />
+
+            @error('password')
+                <span class="block text-sm text-red-700 mt-2">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+        <!-- Confirmação de Senha -->
+          @if($auth == 'register')
+        <div>
+            <label for="password_confirmation" class="block text-sm font-medium text-sky-800 mb-2">
+                Confirme sua senha
+            </label>
+            <input
+                type="password"
+                id="password_confirmation"
+                name="password_confirmation"
+                placeholder="Digite sua senha"
+                class="w-full rounded-md border border-sky-600 px-3 py-2
+                       text-sm text-sky-900
+                       focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30
+                       outline-none transition"
+                required
+            />
+
+            @error('password_confirmation')
+                <span class="block text-sm text-red-700 mt-2">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+        @endif
         <!-- Botão -->
-        <div class="flex justify-end">
-            <button type="submit" class="bg-sky-600 text-white text-sm font-medium
+        <div class="flex justify-end pt-2">
+            <button
+                type="submit"
+                class="bg-sky-600 text-white text-sm font-medium
                        px-6 py-2 rounded-md
                        hover:bg-sky-700
-                       focus:outline-none focus:ring-2 focus:ring-violet-500/40
+                       focus:outline-none focus:ring-2 focus:ring-sky-500/40
                        active:bg-sky-800 transition">
                 Entrar
             </button>
         </div>
-        <div class="flex justify-end">
-            <span class="text-sm font-semibold text-sky-900 mb-4">
-                Já possuiu uma conta? clique <a class="text-indigo-900" href="#">aqui</a>
+
+        <!-- Card de cadastro -->
+        @if($auth == 'login')
+        <div class="border-t pt-4 mt-4 text-center">
+            <span class="text-sm font-medium text-sky-900">
+                Não possui uma conta?
+                <a href="{{ route('site.login.submit', ['auth' => 'register']) }}" class="text-indigo-900 hover:underline ml-1">
+                    Clique aqui
+                </a>
             </span>
         </div>
-
+        @endif
+        @if($auth == 'register')
+        <div class="border-t pt-4 mt-4 text-center">
+            <span class="text-sm font-medium text-sky-900">
+                Já possui uma conta?
+                <a href="{{ route('site.login.submit', ['auth' => 'login']) }}" class="text-indigo-900 hover:underline ml-1">
+                    Clique aqui
+                </a>
+            </span>
+        </div>
+        @endif
     </form>
 </div>
