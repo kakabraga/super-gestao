@@ -41,4 +41,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function verificaSeUsuarioExiste(String $email, String $password) {
+        return $this->where('email', $email)
+        ->where('password', $password)
+        ->first();
+    }
 }

@@ -14,6 +14,22 @@ class LoginController extends Controller
         ]);
     }
 
+    public function registerView(Request $request)
+    {
+        return view('site.login', [
+            'auth' => $request->query('auth', 'register')
+        ]);
+    }
+    public function login(Request $request)
+    {
+        $existe = (new User)->verificaSeUsuarioExiste($request->email, $request->password);
+        if ($existe) {
+            return redirect()->route('site.index');
+        }
+        return redirect()->route('site.login.view',)
+        ->withErrors(['login_error' =>'Email ou senha incorretos!']);
+    }
+
     public function salvar(Request $request)
     {
         if (!$this->senhaValida($request->password, $request->password_confirmation)) {
@@ -25,7 +41,7 @@ class LoginController extends Controller
         $validated = $this->validaDados($request);
         $this->criarUsuario($validated);
         return redirect()
-        ->route('site.login.view');
+            ->route('site.login.view');
     }
 
     public function feedback(): array
@@ -73,10 +89,6 @@ class LoginController extends Controller
 
         );
     }
-    public function registerView(Request $request)
-    {
-        return view('site.login', [
-            'auth' => $request->query('auth', 'register')
-        ]);
-    }
+
+
 }
