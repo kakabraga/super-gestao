@@ -14,29 +14,26 @@ class AutenticacaoMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, String $auth_method): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        // return $next($request);
-        // echo $auth_method;
-        $retorno =  $this->verificaMetodoAuth($auth_method);
-        
-        if ($retorno != true) {
+
+        if (session()->has('email')) {
             return $next($request);
         }
-
-        
-        return response($retorno);
+        return redirect()->route('site.index')->withErrors(['usuario_off' => 'Usuario não está logado!']);
     }
 
-    public function verificaMetodoAuth($auth_metodo = ''): mixed
-    {
-        if ($auth_metodo == 'padrao') {
-            return true;
-        };
-        if ($auth_metodo == 'ldap') {
-            $retorno = 'metodo por ldap ainda não implementado, tente de outra forma!';
-            return $retorno;
-        };
-        return false;
-    }
+    // public function verificaMetodoAuth($auth_metodo = ''): mixed
+    // {
+    //     if ($auth_metodo == 'padrao') {
+    //         return true;
+    //     }
+    //     ;
+    //     if ($auth_metodo == 'ldap') {
+    //         $retorno = 'metodo por ldap ainda não implementado, tente de outra forma!';
+    //         return $retorno;
+    //     }
+    //     ;
+    //     return false;
+    // }
 }

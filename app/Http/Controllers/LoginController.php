@@ -22,12 +22,12 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        $existe = (new User)->verificaSeUsuarioExiste($request->email, $request->password);
-        if ($existe) {
-            return redirect()->route('site.index');
+        $usuario = (new User)->verificaSeUsuarioExiste($request->email, $request->password);
+        if ($usuario) {
+            return $this->inciaSessao($usuario);
         }
-        return redirect()->route('site.login.view',)
-        ->withErrors(['login_error' =>'Email ou senha incorretos!']);
+        return redirect()->route('site.login.view', )
+            ->withErrors(['login_error' => 'Email ou senha incorretos!']);
     }
 
     public function salvar(Request $request)
@@ -88,6 +88,16 @@ class LoginController extends Controller
             $this->feedback()
 
         );
+    }
+
+    public function inciaSessao(User $user)
+    {
+        session([
+            'nome' => $user->name,
+            'email' => $user->email,
+            'user_id' => $user->id,
+        ]);
+        return redirect()->route('app.clientes');
     }
 
 
