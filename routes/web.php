@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\ContatoController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\SobreNosController;
 use App\Http\Controllers\TesteController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,20 +40,17 @@ Route::post('/login', [LoginController::class, 'login'])->name('site.login.submi
 Route::post('/register', [LoginController::class, 'salvar'])->name('site.register.submit');
 
 Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
-    Route::get('/clientes', function () {
-        return 'clientes';
-    })->name('app.clientes');
-    Route::get('/fornecedores', [FornecedorController::class, 'index'])
-        ->name('app.fornecedores');
-    Route::get('/produtos', function () {
-        return 'produtos';
-    })->name('app.produtos');
+    Route::get('/clientes', action: [ClienteController::class, 'index'])->name('app.cliente');
+    Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
+    Route::get('/produto',  [ProdutoController::class, 'index'])->name('app.produto');
+    Route::get('/home', [HomeController::class, 'index'])->name('app.home');
+    Route::get('/sair', [LoginController::class, 'logout'])->name('app.logout');
 });
 
 Route::get('/teste/{idade}/{salario}', [TesteController::class, 'teste'])->name('site.teste');
 
 Route::fallback(function () {
-    return response("Rota não encontrada. Clique <a href='" . route('site.index') . "'>aqui</a> para ir para a página inicial",  404);
+    return view("site.fallback");
 });
 
 

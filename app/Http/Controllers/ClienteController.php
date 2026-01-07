@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    function salvar() {
-        // Lógica para salvar um cliente
+    function index() {
+        return view('site.app.home');
     }
 }

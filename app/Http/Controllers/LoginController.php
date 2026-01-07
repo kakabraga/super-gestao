@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Symfony\Component\Mime\Test\Constraint\EmailTextBodyContains;
 
 class LoginController extends Controller
 {
@@ -41,7 +42,7 @@ class LoginController extends Controller
         $validated = $this->validaDados($request);
         $this->criarUsuario($validated);
         return redirect()
-            ->route('site.login.view');
+            ->route('app.home');
     }
 
     public function feedback(): array
@@ -90,6 +91,10 @@ class LoginController extends Controller
         );
     }
 
+    public function emailBoasVindas(String $email) {
+        return Email::EmailTextBodyContains('oi');
+    }
+
     public function inciaSessao(User $user)
     {
         session([
@@ -97,8 +102,11 @@ class LoginController extends Controller
             'email' => $user->email,
             'user_id' => $user->id,
         ]);
-        return redirect()->route('app.clientes');
+        return redirect()->route('app.home');
     }
 
-
+    public function logout() {
+        echo "saiu";
+    }
 }
+ 

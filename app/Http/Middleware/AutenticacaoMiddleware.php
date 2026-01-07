@@ -18,9 +18,10 @@ class AutenticacaoMiddleware
     {
 
         if (session()->has('email')) {
+
             return $next($request);
         }
-        return redirect()->route('site.index')->withErrors(['usuario_off' => 'Usuario não está logado!']);
+        return redirect()->route('site.index')->withErrors(['not_login' => 'Usuário não tem permissão para acessar essa página!']);
     }
 
     // public function verificaMetodoAuth($auth_metodo = ''): mixed

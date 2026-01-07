@@ -1,6 +1,11 @@
 @extends('site.layouts.basico')
 @section('titulo', 'Index')
 @section('conteudo')
+@error('not_login')
+                    <span class="block text-sm text-red-700 mt-2">
+                        {{ $message }}
+                    </span>
+                @enderror
         <div class="border-2 rounded flex ">
             {{-- Imagem (metade esquerda) --}}
             <div class="">
