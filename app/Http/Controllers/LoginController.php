@@ -106,7 +106,8 @@ class LoginController extends Controller
     }
 
     public function logout() {
-        echo "saiu";
+        session()->flush();
+        return redirect()->route('site.index');
     }
 }
  
