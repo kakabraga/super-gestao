@@ -17,7 +17,7 @@
     </main>
 
     {{-- Rodapé --}}
-    @include('site.layouts._partials.rodape')
+    @include('site.app.layouts._partials.rodape')
 
 </body>
 </html>

@@ -40,8 +40,11 @@ Route::post('/login', [LoginController::class, 'login'])->name('site.login.submi
 Route::post('/register', [LoginController::class, 'salvar'])->name('site.register.submit');
 
 Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
-    Route::get('/clientes', action: [ClienteController::class, 'index'])->name('app.cliente');
+    Route::get('/clientes',  [ClienteController::class, 'index'])->name('app.cliente');
     Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
+    Route::get('/fornecedor/adicionar', [FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
+    Route::post('/fornecedor/listar', [FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
+    Route::post('/fornecedor',  [FornecedorController::class, 'save'])->name('app.fornecedor.submit');
     Route::get('/produto',  [ProdutoController::class, 'index'])->name('app.produto');
     Route::get('/home', [HomeController::class, 'index'])->name('app.home');
     Route::get('/sair', [LoginController::class, 'logout'])->name('app.logout');

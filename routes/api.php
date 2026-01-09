@@ -18,4 +18,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/clientes', [\App\Http\Controllers\ClienteController::class, 'salvar']);
+Route::get('/clientes2', function (Request $request) {
+    return "oi";
+});
