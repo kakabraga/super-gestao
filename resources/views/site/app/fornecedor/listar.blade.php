@@ -2,11 +2,6 @@
 @section('titulo', 'Fornecedores')
 @section('conteudo')
 
-    @if(session('message'))
-        <div class="bg-green-100 text-green-700 p-3 rounded">
-            Resultado: {{ session('message') }}
-        </div>
-    @endif
     <div class="mt-6 flex justify-center">
         <section class="w-full max-w-4xl rounded-xl border border-violet-200 bg-white shadow-lg p-6">
 

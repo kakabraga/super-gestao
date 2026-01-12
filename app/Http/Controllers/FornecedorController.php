@@ -15,7 +15,6 @@ class FornecedorController extends Controller
     }
     public function save(Request $request) {
 
-
     $validate = $request->validate([
             'nome' => ['required', 'min:5', 'max:50'],
             'site' => ['required', 'min:10', 'max:100'],
@@ -24,7 +23,7 @@ class FornecedorController extends Controller
         ]);
 
         Fornecedor::create($validate);
-        return redirect()->route('app.fornecedor')->with('message','Fornecedor cadastrado com sucesso!');
+        return redirect()->route('app.fornecedor.adicionar')->with('message','Fornecedor cadastrado com sucesso!');
     }
 
     public function listar() {
