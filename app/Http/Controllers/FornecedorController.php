@@ -14,24 +14,25 @@ class FornecedorController extends Controller
     }
     public function save(Request $request)
     {
-
-        $validate = $request->validate($this->regras(), $this->feedback());
-        Fornecedor::create($validate);
+        $validated = $request->validate($this->regras(), $this->feedback());
+        $this->verificaInput($request, $validated);
         return redirect()->route('app.fornecedor.adicionar')->with('message', 'Fornecedor cadastrado com sucesso!');
     }
 
     public function listar(Request $request)
     {
         $query = Fornecedor::query();
-
-        foreach ($request->except('_token') as $campo => $valor) {
+        foreach ($request->except('_token', 'page') as $campo => $valor) {
             if (!empty($valor)) {
                 $query->where($campo, 'like', '%' . $valor . '%');
             }
         }
 
-        $fornecedores = $query->get();
-        return view('site.app.fornecedor.listar')->with('fornecedores', $fornecedores);
+        
+        $fornecedores = $query->paginate(5);
+        return view('site.app.fornecedor.listar')->with('fornecedores', $fornecedores)
+        ->with('total', count($fornecedores))
+        ->with('request', $request->all());
     }
     public function adicionar(Request $request)
     {
@@ -39,6 +40,28 @@ class FornecedorController extends Controller
         return view('site.app.fornecedor.adicionar');
     }
 
+    public function verificaInput(Request $request, $validated)
+    {
+        if ((int) $request->id_fornecedor > 0) {
+            $this->editaFornecedor($validated, (int) $request->id_fornecedor);
+            return redirect()
+                ->route('app.fornecedor.editar', ['id' => $request->id_fornecedor])
+                ->with('message', 'Fornecedor atualizado com sucesso!');
+        }
+        return $this->criaFornecedor($validated);
+    }
+
+    public function criaFornecedor($validated)
+    {
+        return Fornecedor::create($validated);
+    }
+
+    public function editaFornecedor($dados, $id)
+    {
+        $fornecedor = Fornecedor::findOrFail($id);
+        $fornecedor->update($dados);
+
+    }
     public function regras()
     {
         return [
@@ -60,5 +83,16 @@ class FornecedorController extends Controller
             'uf.required' => 'A UF deve ter exatamente 2 caracteres.',
             'email.email' => 'Informe um e-mail válido.',
         ];
+    }
+
+    public function editar($id)
+    {
+        $fornecedor = Fornecedor::find($id);
+        return view('site.app.fornecedor.adicionar', compact('fornecedor'));
+    }
+    public function excluir($id)
+    {
+        Fornecedor::destroy($id);
+        return  redirect()->route('app.fornecedor.listar')->with('message', 'Fornecedor excluido com sucesso!');
     }
 }

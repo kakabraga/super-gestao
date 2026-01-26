@@ -18,7 +18,7 @@
             <!-- Conteúdo -->
             <main class="mt-6">
                 <div class="bg-gray-50 rounded-lg p-6 shadow-inner max-w-3xl">
-                        @component('site.app.layouts._components.form_adicionar_fornecedor', ['buttonText' => 'Salvar'])
+                        @component('site.app.layouts._components.form_adicionar_fornecedor', ['buttonText' => 'Salvar', 'fornecedor' => $fornecedor ?? ""])
                         @endcomponent
                     </div>
         </section>
