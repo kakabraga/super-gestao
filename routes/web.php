@@ -39,6 +39,7 @@ Route::get('/register', [LoginController::class, 'registerView'])->name('site.re
 Route::post('/login', [LoginController::class, 'login'])->name('site.login.submit');
 Route::post('/register', [LoginController::class, 'salvar'])->name('site.register.submit');
 
+
 Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
     Route::get('/clientes',  [ClienteController::class, 'index'])->name('app.cliente');
     Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
@@ -52,7 +53,7 @@ Route::middleware('autenticacao:padrao')->prefix('/app')->group(function () {
     Route::get('/fornecedor/editar/{id}', [FornecedorController::class, 'editar'])->name('app.fornecedor.editar');
     Route::get('/fornecedor/excluir/{id}', [FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
     
-    Route::resource('produto', ProdutoController::class)->name('app.prodtudo');
+    Route::resource('produto', ProdutoController::class);
     // Route::get('/produto/create',  [ProdutoController::class, 'create'])->name('app.produto.create');
     // Route::get('/produto',  [ProdutoController::class, 'index'])->name('app.produto');
     });

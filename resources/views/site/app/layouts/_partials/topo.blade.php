@@ -11,7 +11,7 @@
             <nav class="hidden md:flex items-center gap-10">
                 <a href="{{ route('app.cliente')}}" class="hover:text-indigo-400 transition">Clientes</a>
                 <a href="{{ route('app.fornecedor')}}" class="hover:text-indigo-400 transition">Fornecedores</a>
-                <a href="{{ route('app.produto')}}" class="hover:text-indigo-400 transition">Produtos</a>
+                <a href="{{ route('produto.index')}}" class="hover:text-indigo-400 transition">Produtos</a>
             </nav>
 
             <!-- Ações -->

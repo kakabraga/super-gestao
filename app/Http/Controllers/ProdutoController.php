@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\Unidade;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
@@ -10,9 +11,16 @@ class ProdutoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        echo "Index";
+        $produtos = Produto::paginate(10);
+        // foreach ($request->except('_token', 'page') as $campo => $valor) {
+        //     if (!empty($valor)) {
+        //         $query->where($campo, 'like', '%' . $valor . '%');
+        //     }
+        // }
+
+        return view('site.app.produto.index', ['produtos' => $produtos, 'request' => $request->all()]);
     }
 
     /**
@@ -20,7 +28,8 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-       echo "create";
+        $unidades = Unidade::all();
+        return view('site.app.produto.create', ['unidades' => $unidades]);
     }
 
     /**
@@ -28,7 +37,8 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Produto::create($request->all());
+        return redirect()->route("produto.index");
     }
 
     /**
