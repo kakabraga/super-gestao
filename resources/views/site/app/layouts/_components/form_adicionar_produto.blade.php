@@ -1,6 +1,12 @@
-<form action="{{ route('produto.store') }}" method="post" class="space-y-5">
-    <input type="hidden" id="id_produto" name="id_produto" value="{{ $produto->id ?? "0" }}">
+<form action="{{ isset($produto) ? route('produto.update', $produto->id) : route('produto.store') }}" method="POST"
+    class="space-y-5">
     @csrf
+
+    @isset($produto)
+        @method('PUT')
+    @endisset
+    <input type="hidden" id="id_produto" name="id_produto" value="{{ $produto->id ?? "0" }}">
+
     <div>
         <label class="block text-sm font-medium text-gray-700">
             Nome
@@ -45,8 +51,7 @@
             Unidade ID
         </label>
 
-        <select name="unidade_id" id="unidade_id" 
-        class="mt-1 w-full rounded-md border-gray-300 
+        <select name="unidade_id" id="unidade_id" class="mt-1 w-full rounded-md border-gray-300 
         shadow-sm py-2 px-2 
         focus:border-violet-500 
         focus:ring-violet-500">

@@ -24,6 +24,7 @@
                             <th class="px-4 py-2 text-left">Nome</th>
                             <th class="px-4 py-2 text-left">Descrição</th>
                             <th class="px-4 py-2 text-left">Peso</th>
+                            <th class="px-4 py-2 text-left">Visualizar</th>
                             <th class="px-4 py-2 text-center">Editar</th>
                             <th class="px-4 py-2 text-center">Excluir</th>
                         </tr>
@@ -36,19 +37,25 @@
                                 <td class="px-4 py-2 "> {{ $produto->descricao }}</td>
                                 <td class="px-4 py-2">{{ $produto->peso }}</td>
                                 <td class="px-4 py-2 text-center">
-                                    <a href=""
+                                    <a href='{{ route('produto.show', ['produto' => $produto->id]) }}'
                                         class="text-blue-600 hover:underline">
+                                        Visualizar
+                                    </a>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <a href="{{ route('produto.edit', ['produto' => $produto->id]) }}" class="text-blue-600 hover:underline">
                                         Editar
                                     </a>
                                 </td>
 
+
                                 <td class="px-4 py-2 text-center">
-                                    <form action="" method="POST">
-                                        @csrf
+                                    <form id='form_{{$produto->id}}' action="{{ route('produto.destroy', ['produto' => $produto->id]) }}" method="POST">
                                         @method('DELETE')
-                                        <a href=""
-                                            class="text-red-600 hover:underline"
-                                            onclick="return confirm('Tem certeza que deseja excluir?')">
+                                        @csrf
+                                        <!-- <button type="submit" class="bg-violet-200 hover:bg-violet-500">Excluir</button> -->
+                                        <a href="#" class="text-red-600 hover:underline"
+                                            onclick="document.getElementById('form_{{$produto->id}}').submit()">
                                             Excluir
                                         </a>
                                     </form>

@@ -14,6 +14,7 @@ class ProdutoController extends Controller
     public function index(Request $request)
     {
         $produtos = Produto::paginate(10);
+        ;
         // foreach ($request->except('_token', 'page') as $campo => $valor) {
         //     if (!empty($valor)) {
         //         $query->where($campo, 'like', '%' . $valor . '%');
@@ -37,14 +38,14 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $regras = [
-           'nome' => ['required', 'min:3', 'max:40'],
-           'descricao' => ['required','min:3', 'max:40'],
-           'peso' => ['required', 'integer'],
-           'unidade_id' => ['exists:unidades,id'],
+            'nome' => ['required', 'min:3', 'max:40'],
+            'descricao' => ['required', 'min:3', 'max:40'],
+            'peso' => ['required', 'integer'],
+            'unidade_id' => ['exists:unidades,id'],
         ];
-        
+
         $feedback = [
             'required' => 'O campo :attribute deve ser preenchido',
             'nome.min' => 'O campo nome deve ter no mínimo 3 caracteres',
@@ -52,7 +53,7 @@ class ProdutoController extends Controller
             'descricao.min' => 'O campo descricão deve ter no mínimo 3 caracteres',
             'descricao.max' => 'O campo descricão deve ter no máxmo 40 caracteres',
             'peso.integer' => 'O campo peso deve ser um numero inteiro',
-            'unidade_id.exists' => 'A unidade de medida informada não existe' 
+            'unidade_id.exists' => 'A unidade de medida informada não existe'
         ];
         $request->validate($regras, $feedback);
         Produto::create($request->all());
@@ -64,7 +65,7 @@ class ProdutoController extends Controller
      */
     public function show(Produto $produto)
     {
-        //
+        return view('site.app.produto.show', ['produto' => $produto]);
     }
 
     /**
@@ -72,7 +73,8 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        //
+        $unidades = Unidade::all();
+        return view('site.app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
     }
 
     /**
@@ -80,14 +82,46 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-        //
+        $regras = [
+            'nome' => ['required', 'min:3', 'max:40'],
+            'descricao' => ['required', 'min:3', 'max:40'],
+            'peso' => ['required', 'integer'],
+            'unidade_id' => ['exists:unidades,id'],
+        ];
+
+        $feedback = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'nome.min' => 'O campo nome deve ter no mínimo 3 caracteres',
+            'nome.max' => 'O campo nome deve ter no máximo 40 caracteres',
+            'descricao.min' => 'O campo descrição deve ter no mínimo 3 caracteres',
+            'descricao.max' => 'O campo descrição deve ter no máximo 40 caracteres',
+            'peso.integer' => 'O campo peso deve ser um número inteiro',
+            'unidade_id.exists' => 'A unidade de medida informada não existe'
+        ];
+
+        $request->validate($regras, $feedback);
+
+        $produto->update([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+            'peso' => $request->peso,
+            'unidade_id' => $request->unidade_id
+        ]);
+
+        return redirect()
+            ->route('produto.index')
+            ->with('success', 'Produto atualizado com sucesso!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Produto $produto)
     {
-        //
+        
+        $produto->delete();
+        // Produto::destroy($produto->id);
+        return  redirect()->route('produto.index')->with('message', 'Fornecedor excluido com sucesso!');
     }
 }
